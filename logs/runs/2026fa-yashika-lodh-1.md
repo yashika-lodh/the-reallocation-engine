@@ -1,7 +1,27 @@
-## 2026-10-10 — opt-countdown run 1
+## 2026-10-29 — Setup Exercise: search/ personal layer built (yashika-lodh)
 
-- **Recipe:** opt-countdown (`recipes/cases/2026fa/yashika-lodh-opt-countdown.md`)
-- **Inputs:** 20 candidate frontend / full-stack roles from the student's own application tracker (private); 80 Days CSV `data/80-days-to-stay/80-days-csv/mapped_student_employment_targets_v3.csv` (SHA-256 matches the audit); `npm run score:gates` (PASS); `npm run ats:liveness` on all 20 postings; manual E-Verify employer search (Date Enrolled: Last 30 years); timeline from the student's OPT / STEM OPT dates; `npm run score`
-- **Outputs:** `private/opt-countdown/role-scores.json` and scorer report (git-ignored); worked example and justification in `course/2026fa/submissions/yashika-lodh/`
-- **Result:** 20 roles in → 4 vetoed (posting not live), 8 INCOMPLETE (E-Verify or liveness unresolved), 8 scored → Apply 0 / Consider 6 / Skip 2. Every composite matched a hand calculation. Only 1 of 20 employers has H-1B data in 80 Days; 9 have rows with empty H-1B fields; 10 were not found or ambiguous. Every scored role is tier Unknown, so no role can reach Apply. Author-chosen values: Unknown prior p = 0.2; timeline curve 0 / 0.3 / 0.6 / 0.8 / 1.0 by buffer band; fit from job title only.
-- **Open issues:** 3 of the 4 liveness vetoes were wrong: the iCIMS / Workday postings marked "insufficient content" were open when checked in a browser (rule fixed in recipe v0.2.0); 6 E-Verify lookups and 6 browser liveness checks pending; brand vs legal name mismatches broke matching in both directions; E-Verify employers have multiple accounts whose status changes over time; the scorer's skip-rate warning (25%) ignores upstream vetoes (50% of decided roles were skipped); `recipes/_shared.md` says to log in `logs/RUN_LOG.md`, which students must not edit.
+- **Recipe:** manual (Setup Exercise / Tutorial 00), agent-assisted intake in Claude chat
+- **Inputs:** my resume (PDF), my public GitHub repos, intake interview, data/bls/compact/soc_occupation_compact.csv, three live job postings (Rillet Design Engineer, HappyRobot Forward Deployed Engineer, Coinflow Software Engineer; accessed 2026-10-29)
+- **Outputs (local, gitignored — never committed):** search/resume.json (attested 2026-10-29), search/profile.yml, search/gaps.md
+- **Privacy:** `git check-ignore -v search/private-notes.md` → `.gitignore:43:/search/*`. The handout's extra .gitignore line was redundant with the repo's existing `/search/*` rule, so I reverted it rather than touch a shared file.
+
+**Attestation errors caught (resume.json):**
+1. Buffett Intelligence corpus was misstated as "1K+ letters and Q&A pairs"; the repo shows one 1,010-page letters PDF plus 5,992 Q&A pairs.
+2. Dynamic Pricing Engine read as solo with a stale "39 JUnit tests"; it was a 4-person team, the bullet is now scoped to my parts, and the test suite I wrote is now 46 tests (JUnit 5 + Spring Boot Test), 0 failures.
+3. PawConnect's bullet claimed the whole platform; it was a 4-person team and my parts were two pages.
+(Also corrected: NewEra IT title to offer-letter wording; "Redux Toolkit" → "Redux"; GraphQL moved to familiar_with_not_shipped, since its only appearance was a teammate's work.)
+
+**SOC gate:** 15-1252 Software Developers (primary), 15-1254 Web Developers (secondary).
+
+**Top gap:** Node.js backend depth — P2 lists React/TypeScript/Node.js as a must-have and P3 asks for TypeScript/Node; I have never built and owned a full Node/TypeScript API end to end. Plan: a tested, deployed TypeScript/Node API with a database by mid-December 2026.
+
+**Killed row:** "One year of professional experience" (P3) — Reason: the agent treated my two internships as falling short of a year, but together they are about 14 months of engineering work (6 months NewEra IT, 8 months Aikreate as sole engineer).
+
+**profile.yml field corrected from agent draft:** `visa.current_status` — the agent's prior record said "STEM OPT"; my documents say F-1, still in program, OPT filing in progress. EAD/OPT dates set to `uncertain` instead of guessed.
+
+**Verification check:**
+- resume.json: every job and project now traces to an offer letter or a public repo; employer-internal work is evidenced by offer letter only. Hardest to verify: the "50+ students" metric, which rests on my own knowledge.
+- profile.yml: visa fields match my actual status; STEM eligibility is DSO-confirmed; no date was guessed. Buffer target 80 taken from Ch. 10 after the example personas showed 20/30.
+- gaps.md: every evidence cell quotes P1–P3, but one row overstated demand: Go/Rust was listed as a gap when P3 calls it only "a plus" (and Python, which I have, satisfies that line) — removed. Rows 3 and 5 each cite two postings, but P1's line in row 5 is softer than a requirement.
+
+- **Open issues:** EAD dates pending; sponsorship status of the three posting companies not yet checked with the scorer; P1/P2 likely past my Series C target.
